@@ -3,7 +3,7 @@
 
 Overview
 ---
-In this project, I used my learned knowledge about deep neural networks and convolutional neural networks to classify traffic signs ([German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)). Solving this project required training of a deep neural network. I outline the steps I used below. I achieved an Validation accuracy of 0.993 and a Test accuracy of 0.951.
+In this project, I used my learned knowledge about deep neural networks and convolutional neural networks to classify traffic signs ([German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)). Solving this project required training of a deep neural network. I outline the steps I used below. I achieved an Validation accuracy of 0.992 and a Test accuracy of 0.954.
 
 
 
@@ -33,6 +33,7 @@ I modified the standard LeNet architecture with deeper layers and removed one of
 * Fully Connected Layer : n = 256, activation function:relu
 * Dropout Layer : Dropout Value = 0.5
 * Output Layer : n = 43
+
 The architecture is deeper than the standard LeNet as the Traffic Sign Classification Problem is more complex than Numbers Classification. Trying to remove one of the convolutional layers reduced the accuracy of prediction, therefore all tow conbolutional layers are remained. Dropout is also implemented in order to reduce overfitting and the result was best with value 0.5.
 
 Model Training
@@ -41,18 +42,18 @@ The loss funtion imcludes L2 Regularization of weightmatrix to prevent overfitti
 
 Solution Approach
 ---
-To solve the problem, firstly i used the default LeNet with image preprocessed, yet the result stay around 9.90, then I set the weightmatrix of each layer deeper and the result was improved but still not very satisfying. Then I learned that the balance of classes played a big role and through upsampling under-sampled classes, the validation accuracy improved to 9.95 and test accuracy to 9.53.
+To solve the problem, firstly i used the default LeNet with image preprocessed, yet the result stay around 9.90, then I set the weightmatrix of each layer deeper and the result was improved but still not very satisfying. Then I learned that the balance of classes played a big role and through upsampling under-sampled classes, the validation accuracy improved to 9.92 and test accuracy to 9.54.
 
 * Data Preprocess: First of all, the images were converted to grayscale and values were normalized into (0,1) as both measures improved the accuracy. Histogram equalization was also applied to the dataset and the signs are visually much sharper, especially for images that are originally very dark. Yet the result didn't show any improvement or deterioration. As the data is very unbalanced, I upsampled them to achieve a uniform calss distribution. Instead of adding same images over, I used warpperspective to transformed images to right or left in a random small angle. The training result from the balanced data improved from around 0.91 to 0.94.
 
-* Nadam Optimizer: Both AdamOptimizer and Nadam optimizer were compared in trainning and the Nadam optimizer was faster as it utilizes momentum, but both optimizer yield similar accuracy in the end.
+* Nadam Optimizer: AdamOptimizer and Nadam optimizer were compared in trainning and the Nadam optimizer was faster as it utilizes momentum, but both optimizer yield similar accuracy in the end.
 
-* Overfitting and Underfitting: As shown in the learning curve, the accuracy keeps almost constant after the 30th epoch. Increasing the complexity also didn't improve the predict(Adding a convolutional layer degraded the accuracy from 0.953 to 0.948 and adding a fully connected layer didn't have a noticeable effect), so the network is not underfitting, maybe increasing training data will be effective to improve the result further.
+* Overfitting and Underfitting: As shown in the learning curve, the accuracy keeps almost constant after the 30th epoch. Increasing the complexity also didn't improve the prediction (Adding a convolutional layer degraded the accuracy from 0.954 to 0.948 and adding a fully connected layer didn't have a noticeable effect), so the network is not underfitting, maybe increasing training data will be effective to improve the result further.
 
-* Hyperparameter Tuning: To let the model to achieve a higher accuracy, I tried different learning rate, regularization coefficient, batch size, epochs, whenever a higher accuracy was reached, I use it as a new baseline and adjust other parameters to see if further improvment is possible. Learning rate higher than 0.001 converge faster at first yet the final accuracy is lower. Learning rate lower than 0.001 converge slower but also can not deliver better result. The optimal value for regularization war found to be near 0.0001 as both higher or lower value degrade the result.
+* Hyperparameter Tuning: To let the model to achieve a higher accuracy, I tried different learning rate, regularization coefficient, batch size, epochs. whenever a higher accuracy was reached, I use it as a new baseline and adjust other parameters to see if further improvment is possible. Learning rate higher than 0.001 converge faster at first yet the final accuracy is lower. Learning rate lower than 0.001 converge slower and also can not deliver better result. The optimal value for regularization war found to be near 0.0001 as both higher or lower value degrade the result.
 
-* Model Evaluation: The trained model can be evaluated through the prediction accuracy and loss function on test dataset or the certainty of prediction on new images. The prediction accuracy is the first metric and with similar accuracy, the smaller the loss function, the more stable the model.
+* Model Evaluation: The trained model can be evaluated through the prediction accuracy and loss function on test dataset or the certainty of prediction on new images. With similar prediction accuracy, the smaller the loss function, the more stable the model.
 
 Test a Model on New Images
 ---
-It is shown that overall the network can classify signs correctly, yet the probabilities of correct results are still not always very certain as most of the probabilities fail to exceed 50%. As the result shows, the brightness doesn't affect the result much. The contrast and clearity of image should have larger influence on the accuracy. 
+It is shown that overall the network can classify all new signs correctly, yet the probabilities of correct results are still not always very certain as most of the probabilities fail to exceed 50%. As the result shows, the brightness doesn't affect the result much. The contrast and clearity of image should have larger influence on the accuracy. 
